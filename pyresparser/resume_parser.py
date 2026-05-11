@@ -1,4 +1,4 @@
-# Author: Omkar Pathak
+# Author: NagaCharan
 
 import os
 import multiprocessing as mp
