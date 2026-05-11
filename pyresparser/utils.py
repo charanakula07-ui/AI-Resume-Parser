@@ -1,4 +1,4 @@
-# Author: Omkar Pathak
+# Author: NagaCharan
 
 import io
 import os
@@ -20,74 +20,27 @@ from nltk.corpus import stopwords
 
 
 def extract_text_from_pdf(pdf_path):
-    '''
-    Helper function to extract the plain text from .pdf files
+    """
+    Extract text from PDF using pdfplumber
+    """
 
-    :param pdf_path: path to PDF file to be extracted (remote or local)
-    :return: iterator of string of extracted text
-    '''
-    # https://www.blog.pythonlibrary.org/2018/05/03/exporting-data-from-pdfs-with-python/
-    if not isinstance(pdf_path, io.BytesIO):
-        # extract text from local pdf file
-        with open(pdf_path, 'rb') as fh:
-            try:
-                for page in PDFPage.get_pages(
-                        fh,
-                        caching=True,
-                        check_extractable=True
-                ):
-                    resource_manager = PDFResourceManager()
-                    fake_file_handle = io.StringIO()
-                    converter = TextConverter(
-                        resource_manager,
-                        fake_file_handle,
-                        codec='utf-8',
-                        laparams=LAParams()
-                    )
-                    page_interpreter = PDFPageInterpreter(
-                        resource_manager,
-                        converter
-                    )
-                    page_interpreter.process_page(page)
+    import pdfplumber
 
-                    text = fake_file_handle.getvalue()
-                    yield text
+    text = ""
 
-                    # close open handles
-                    converter.close()
-                    fake_file_handle.close()
-            except PDFSyntaxError:
-                return
-    else:
-        # extract text from remote pdf file
-        try:
-            for page in PDFPage.get_pages(
-                    pdf_path,
-                    caching=True,
-                    check_extractable=True
-            ):
-                resource_manager = PDFResourceManager()
-                fake_file_handle = io.StringIO()
-                converter = TextConverter(
-                    resource_manager,
-                    fake_file_handle,
-                    codec='utf-8',
-                    laparams=LAParams()
-                )
-                page_interpreter = PDFPageInterpreter(
-                    resource_manager,
-                    converter
-                )
-                page_interpreter.process_page(page)
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
 
-                text = fake_file_handle.getvalue()
-                yield text
+                if page_text:
+                    text += page_text + "\n"
 
-                # close open handles
-                converter.close()
-                fake_file_handle.close()
-        except PDFSyntaxError:
-            return
+        yield text
+
+    except Exception as e:
+        print(e)
+        return
 
 
 def get_number_of_pages(file_name):
@@ -154,22 +107,46 @@ def extract_text_from_doc(doc_path):
 
 
 def extract_text(file_path, extension):
-    '''
-    Wrapper function to detect the file extension and call text
-    extraction function accordingly
 
-    :param file_path: path of file of which text is to be extracted
-    :param extension: extension of file `file_name`
-    '''
-    text = ''
-    if extension == '.pdf':
-        for page in extract_text_from_pdf(file_path):
-            text += ' ' + page
-    elif extension == '.docx':
-        text = extract_text_from_docx(file_path)
-    elif extension == '.doc':
-        text = extract_text_from_doc(file_path)
+    text = ""
+
+    try:
+
+        # PDF
+        if extension == '.pdf':
+
+            import pdfplumber
+
+            with pdfplumber.open(file_path) as pdf:
+                for page in pdf.pages:
+                    page_text = page.extract_text()
+
+                    if page_text:
+                        text += page_text + "\n"
+
+        # DOCX
+        elif extension == '.docx':
+
+            import docx2txt
+
+            text = docx2txt.process(file_path)
+
+        # DOC
+        elif extension == '.doc':
+
+            import textract
+
+            text = textract.process(file_path).decode('utf-8')
+
+    except Exception as e:
+        print("ERROR:", e)
+
+    print("RAW TEXT")
+    print(text)
+    print("END")
+
     return text
+
 
 
 def extract_entity_sections_grad(text):
@@ -344,7 +321,7 @@ def extract_name(nlp_text, matcher):
     '''
     pattern = [cs.NAME_PATTERN]
 
-    matcher.add('NAME', None, *pattern)
+    matcher.add('NAME', pattern)
 
     matches = matcher(nlp_text)
 
