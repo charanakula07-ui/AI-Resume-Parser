@@ -9,8 +9,8 @@ setup(
     description='A simple resume parser used for extracting information from resumes',
     long_description=open('README.rst').read(),
     url='https://github.com/OmkarPathak/pyresparser',
-    author='Omkar Pathak',
-    author_email='omkarpathak27@gmail.com',
+    author='Akula Nagacharan',
+    author_email='charanakula07@gmail.com',
     license='GPL-3.0',
     include_package_data=True,
     classifiers=[
