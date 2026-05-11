@@ -21,12 +21,12 @@ def get_remote_data():
         return 'File not found. Please provide correct URL for resume file.'
 
 def get_local_data():
-    data = ResumeParser('OmkarResume.pdf').get_extracted_data()
+    data = ResumeParser('Nagacharan_Resume.pdf').get_extracted_data()
     return data
         
 def test_remote_name():
     data = get_remote_data()
-    assert 'Omkar Pathak' == data[0]['name']
+    assert 'Akula Nagacharan' == data[0]['name']
 
 def test_remote_phone_number():
     data = get_remote_data()
