@@ -1,94 +1,79 @@
-# AI Resume Analyzer
+# AI Resume Analyzer Dashboard
 
-Professional AI Resume Analyzer Dashboard built using Python, NLP, Streamlit, and PyResParser.
+An advanced AI-powered Resume Parser and Resume Analysis Dashboard built using Python and Streamlit.
 
 ## Features
 
-- Upload PDF and DOCX resumes
-- Extract candidate information automatically
-- Extract:
+- Resume Parsing from PDF and DOCX
+- Extracts:
   - Name
   - Email
   - Phone Number
   - Skills
+  - Education
   - Experience
-  - Degree
-  - College Name
-- Resume text preview
-- Professional dashboard UI
-- Streamlit-based interface
-- NLP-powered parsing
+- Professional Dashboard UI
+- Real-time Resume Analysis
+- Skills Detection
+- Clean Data Table Visualization
 
 ---
 
-## Technologies Used
+## Tech Stack
 
 - Python
 - Streamlit
-- PyResParser
-- spaCy
-- Pandas
 - NLP
+- Pyresparser
 - PDFPlumber
+- Pandas
 
 ---
 
-## Project Screenshots
+## Dashboard Preview
 
-### Dashboard UI
-(Add screenshots here later)
+### Main Dashboard
+
+![Dashboard](dashboard-home.png)
+
+---
+
+### Resume Extraction
+
+![Resume Output](resume-output.png)
+
+---
+
+### Skills Analysis
+
+![Skills](skills-dashboard.png)
 
 ---
 
 ## Installation
 
-Clone the repository:
-
 ```bash
-git clone https://github.com/charanakula07-ui/AI-Resume-Parser.git
-```
+git clone https://github.com/your-username/AI-Resume-Parser.git
 
-Install dependencies:
+cd AI-Resume-Parser
 
-```bash
 pip install -r requirements.txt
-```
 
-Run the project:
-
-```bash
 streamlit run app.py
 ```
 
 ---
 
-## Project Structure
+## Author
 
-```text
-AI-Resume-Parser/
-│
-├── app.py
-├── requirements.txt
-├── pyresparser/
-├── Extracted-Resumes.csv
-└── README.md
-```
+Akula NagaCharan
 
 ---
 
 ## Future Improvements
 
-- AI-based resume scoring
-- ATS compatibility checking
-- Resume ranking system
-- Multi-resume analysis
-- Job recommendation engine
-
----
-
-## Author
-
-### Akula NagaCharan
-
-GitHub:
-https://github.com/charanakula07-ui
+- AI Resume Scoring
+- ATS Compatibility Checker
+- Resume Recommendations
+- Job Matching System
+- Resume Ranking
